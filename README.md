@@ -56,7 +56,7 @@ This requires at least k3s version `1.19.1` however the version is configurable 
 
 If needed, you can also edit `inventory/group_vars/all.yml` to match your environment.
 
-### ☸️ Create Cluster
+### Create Cluster
 
 Start provisioning of the cluster using the following command:
 
@@ -66,7 +66,7 @@ ansible-playbook site.yml -i inventory/my-cluster/hosts.ini
 
 After deployment control plane will be accessible via virtual ip-address which is defined in inventory/group_vars/all.yml as `apiserver_endpoint`
 
-### 🔥 Remove k3s cluster
+### Remove k3s cluster
 
 ```bash
 ansible-playbook reset.yml -i inventory/my-cluster/hosts.ini
@@ -80,13 +80,15 @@ To get access to your **Kubernetes** cluster just
 
 ```bash
 scp debian@controller_ip:~/.kube/config ~/.kube/config
+```
 
-## Thanks 
+## Thanks  
 
-This repo is really standing on the shoulders of giants.  To all those who have contributed.
+I need to echo: This repo is really standing on the shoulders of giants.  To all those who have contributed.
 
 Thanks to these repos for code and ideas:
 
 * [k3s-io/k3s-ansible](https://github.com/k3s-io/k3s-ansible)
+* [techno-tim/k3s-ansible](https://github.com/techno-tim/k3s-ansible)
 * [geerlingguy/turing-pi-cluster](https://github.com/geerlingguy/turing-pi-cluster)
 * [212850a/k3s-ansible](https://github.com/212850a/k3s-ansible) 
