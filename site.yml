@@ -1,19 +1,28 @@
 ---
-
 - hosts: k3s_cluster
   gather_facts: yes
   become: yes
   roles:
     - role: prereq
+
+- hosts: balancer
+  become: yes
+  roles:
+    - role: balancer
+
+- hosts: k3s_cluster
+  become: yes
+  roles:
+#    - role: prereq
     - role: download
-    - role: raspberrypi
+ #   - role: raspberrypi
 
-- hosts: master
+- hosts: controller
   become: yes
   roles:
-    - role: k3s/master
+    - role: k3s/controller
 
-- hosts: node
+- hosts: worker
   become: yes
   roles:
-    - role: k3s/node
+    - role: k3s/worker

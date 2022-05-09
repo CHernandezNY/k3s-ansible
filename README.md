@@ -1,24 +1,15 @@
-# Automated build of HA k3s Cluster with `kube-vip` and MetalLB
+# Build a Kubernetes cluster using k3s via Ansible
 
-![Fully Automated K3S etcd High Availability Install](https://img.youtube.com/vi/CbkEWcUZ7zM/0.jpg)
+Author: <https://github.com/itwars>
 
-This playbook will build an HA Kubernetes cluster with `k3s`, `kube-vip` and MetalLB via `ansible`.
+## K3s Ansible Playbook
 
-This is based on the work from [this fork](https://github.com/212850a/k3s-ansible) which is based on the work from [k3s-io/k3s-ansible](https://github.com/k3s-io/k3s-ansible). It uses [kube-vip](https://kube-vip.chipzoller.dev/) to create a load balancer for control plane, and [metal-lb](https://metallb.universe.tf/installation/) for its service `LoadBalancer`.
+Build a Kubernetes cluster using Ansible with k3s. The goal is easily install a Kubernetes cluster on machines running:
 
-If you want more context on how this works, see:
-
-📄 [Documentation](https://docs.technotim.live/posts/k3s-etcd-ansible/) (including example commands)
-
-📺 [Video](https://www.youtube.com/watch?v=CbkEWcUZ7zM)
-
-## 📖 k3s Ansible Playbook
-
-Build a Kubernetes cluster using Ansible with k3s. The goal is easily install a HA Kubernetes cluster on machines running:
-
-- [X] Debian
+- [ ] Debian
 - [X] Ubuntu
-- [X] CentOS
+- [X] Raspbian
+- [ ] CentOS
 
 on processor architecture:
 
@@ -26,45 +17,44 @@ on processor architecture:
 - [X] arm64
 - [X] armhf
 
-## ✅ System requirements
+## System requirements
 
-* Deployment environment must have Ansible 2.4.0+.  If you need a quick primer on Ansible [you can check out my docs and setting up Ansible](https://docs.technotim.live/posts/ansible-automation/).
-* `server` and `agent` nodes should have passwordless SSH access, if not you can supply arguments to provide credentials `-ask-pass --ask-become-pass` to ach command.
+Deployment environment must have Ansible 2.4.0+
+controllers and workers must have passwordless SSH access
 
-## 🚀 Getting Started
-
-### 🍴 Preparation
+## Usage
 
 First create a new directory based on the `sample` directory within the `inventory` directory:
 
 ```bash
-cp -R inventory/sample inventory/my-cluster
+cp -R inventory/sample inventory/
 ```
 
-Second, edit `inventory/my-cluster/hosts.ini` to match the system information gathered above. 
+Second, edit `inventory/hosts.ini` to match the system information gathered above. For example:
 
-For example:
+```bash
+[controller]
+192.16.35.10
 
-```ini
-[master]
-192.168.30.38
-192.168.30.39
-192.168.30.40
+[worker]
+192.16.35.11
+192.168.1.12
 
-[node]
-192.168.30.41
-192.168.30.42
+[balancer]
+192.168.1.13
 
 [k3s_cluster:children]
-master
-node
+controller
+worker
 ```
 
-If multiple hosts are in the master group, the playbook will automatically set up k3s in [HA mode with etcd](https://rancher.com/docs/k3s/latest/en/installation/ha-embedded/).
+If multiple hosts are in the controller group, the playbook will automatically set up k3s in [HA mode with etcd](https://rancher.com/docs/k3s/latest/en/installation/ha-embedded/).
+
+This cluster was designed to use an external NGINX load balancer for the Control Plane API
 
 This requires at least k3s version `1.19.1` however the version is configurable by using the `k3s_version` variable.
 
-If needed, you can also edit `inventory/my-cluster/group_vars/all.yml` to match your environment.
+If needed, you can also edit `inventory/group_vars/all.yml` to match your environment.
 
 ### ☸️ Create Cluster
 
@@ -82,28 +72,16 @@ After deployment control plane will be accessible via virtual ip-address which i
 ansible-playbook reset.yml -i inventory/my-cluster/hosts.ini
 ```
 
->You should also reboot these nodes due to the VIP not being destroyed
+>You should also reboot these nodes 
 
-## ⚙️ Kube Config
+## Kube Config
 
-To copy your `kube config` locally so that you can access your **Kubernetes** cluster run:
+To get access to your **Kubernetes** cluster just
 
 ```bash
-scp debian@master_ip:~/.kube/config ~/.kube/config
-```
+scp debian@controller_ip:~/.kube/config ~/.kube/config
 
-### 🔨 Testing your cluster
-
-See the commands [here](https://docs.technotim.live/posts/k3s-etcd-ansible/#testing-your-cluster).
-
-### 🔷 Vagrant
-
-You may want to kickstart your k3s cluster by using Vagrant to quickly build you all needed VMs with one command.
-Head to the `vagrant` subfolder and type `vagrant up` to get your environment setup.
-After the VMs have got build, deploy k3s using the Ansible playbook `site.yml` by the
-`vagrant provision --provision-with ansible` command.
-
-## Thanks 🤝
+## Thanks 
 
 This repo is really standing on the shoulders of giants.  To all those who have contributed.
 
