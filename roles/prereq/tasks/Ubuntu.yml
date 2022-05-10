@@ -1,12 +1,4 @@
 ---
-#- name: Enable cgroup via boot commandline if not already enabled for Ubuntu 
-#  lineinfile:
-#    path: /boot/cmdline.txt
-#    backrefs: yes
-#    regexp: '^((?!.*\bcgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory\b).*)$'
-#    line: '\1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory'
-#  notify: reboot
-
 - name: Disable swap
   become: yes
   shell: >
@@ -42,3 +34,25 @@
   alternatives:
     name: ip6tables
     path: /usr/sbin/ip6tables-legacy
+
+- name: Set the current MAC address for the default enthernet port.
+  set_fact:
+    node_mac_address: "{{ hostvars[inventory_hostname].ansible_default_ipv4.macaddress }}"
+
+- name: Set variables based on eth0 MAC address.
+  set_fact:
+    node_hostname: "{{ mac_address_mapping[node_mac_address].name }}"
+    node_ip_address: "{{ mac_address_mapping[node_mac_address].ip }}"
+
+- name: Set up networking-related files.
+  template:
+    src: "templates/{{ item.template }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  with_items:
+    - { template: hostname.j2, dest: /etc/hostname }
+    - { template: hosts.j2, dest: /etc/hosts }
+    - { template: resolv.conf.j2, dest: /etc/resolv.conf }
+  notify:
+    - update hostname
+    - reboot
