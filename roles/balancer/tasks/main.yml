@@ -34,3 +34,5 @@
     name: nginx
     enabled: yes
     state: started
+  notify:
+    - reboot
