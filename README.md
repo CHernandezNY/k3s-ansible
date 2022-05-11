@@ -32,10 +32,10 @@ Second, edit `inventory/hosts.ini` to match the system information gathered abov
 
 ```bash
 [controller]
-192.16.35.10
+192.168.1.10
 
 [worker]
-192.16.35.11
+192.168.1.11
 192.168.1.12
 
 [balancer]
