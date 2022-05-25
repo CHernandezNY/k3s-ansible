@@ -157,6 +157,6 @@
 - name: Copy kube config file to bastion host
   ansible.builtin.fetch:
     src: /home/{{ ansible_user }}/.kube/config
-    dest: /home/{{ ansible_user }}/.kube/config
+    dest: ~/.kube/config
     flat: yes
   when: ansible_host == hostvars[groups['controller'][0]]['ansible_host'] | default(groups['controller'][0])
