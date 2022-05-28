@@ -1,0 +1,6 @@
+---
+- name: Create PiHole deployment service
+  k8s:
+    state: absent            
+    namespace: baselab  
+    src: "{{ playbook_dir }}/k8s_yamls/pihole.yml"
