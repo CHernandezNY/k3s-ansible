@@ -13,6 +13,7 @@
       - ca-certificates
       - curl
       - gnupg-agent
+    update_cache: yes
     state: present
 
 - name: Install iptables
