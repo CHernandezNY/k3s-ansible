@@ -10,3 +10,4 @@
     - role: deployments/juiceshop
     - role: deployments/echoserver
     - role: deployments/pihole
+    - role: deployments/keycloak
