@@ -59,7 +59,7 @@ If needed, you can also edit `inventory/group_vars/all.yml` to match your enviro
 Start provisioning of the cluster using the following command:
 
 ```bash
-ansible-playbook site.yml -i inventory/my-cluster/hosts.ini
+ansible-playbook site.yml -i inventory/hosts.ini
 ```
 
 After deployment control plane will be accessible via virtual ip-address which is defined in inventory/group_vars/all.yml as `apiserver_endpoint`
@@ -67,7 +67,7 @@ After deployment control plane will be accessible via virtual ip-address which i
 ### Remove k3s cluster
 
 ```bash
-ansible-playbook reset.yml -i inventory/my-cluster/hosts.ini
+ansible-playbook reset.yml -i inventory/hosts.ini
 ```
 
 >You should also reboot these nodes 
