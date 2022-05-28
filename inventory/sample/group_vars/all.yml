@@ -37,6 +37,10 @@ dns_nameservers:
   - "9.9.9.9"
   - "1.1.1.1"
 
+# NFS Client Configuration 
+nfs_server: "192.168.1.10"
+nfs_path: "/mnt/tank/tankds/kubedata"
+
 # DHCP address of unitilized bare-metal hosts
 new_hosts:
   - 192.168.1.11

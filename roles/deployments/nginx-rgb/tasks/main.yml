@@ -1,0 +1,24 @@
+---
+- name: Create NGINX RGB deployment
+  k8s:
+    state: present            
+    namespace: baselab  
+    src: "{{ playbook_dir }}/k8s_yamls/nginx-rgb.yml"
+
+- name: Create NGINX Red deployment
+  k8s:
+    state: present           
+    namespace: baselab  
+    src: "{{ playbook_dir }}/k8s_yamls/nginx-red.yml"
+
+- name: Create NGINX Green deployment
+  k8s:
+    state: present           
+    namespace: baselab  
+    src: "{{ playbook_dir }}/k8s_yamls/nginx-green.yml"
+
+- name: Create NGINX Blue deployment
+  k8s:
+    state: present           
+    namespace: baselab  
+    src: "{{ playbook_dir }}/k8s_yamls/nginx-blue.yml"

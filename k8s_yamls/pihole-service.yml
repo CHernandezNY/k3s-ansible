@@ -1,0 +1,27 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: pihole-tcp
+  namespace: baselab
+  annotations:
+    metallb.universe.tf/allow-shared-ip: dns
+spec:
+  selector:
+    run: pihole-sts
+    statefulset.kubernetes.io/pod-name: pihole-sts-0
+  ports:
+  - protocol: TCP
+    port: 53
+    name: dnstcp
+    targetPort: 53
+  - protocol: TCP
+    port: 80
+    name: http
+    targetPort: 80
+  - protocol: TCP
+    port: 443
+    name: https
+    targetPort: 443
+  type: LoadBalancer
+  loadBalancerIP: 192.168.1.38
