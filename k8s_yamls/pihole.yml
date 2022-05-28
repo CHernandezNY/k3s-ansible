@@ -5,14 +5,14 @@ metadata:
   name: pihole-headless
   namespace: baselab
   labels:
-    run: pihole-sts
+    app: pihole-sts
 spec:
   ports:
   - port: 80
     name: web
   clusterIP: None
   selector:
-    run: pihole-sts
+    app: pihole-sts
 
 ---
 apiVersion: apps/v1
@@ -23,13 +23,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      run: pihole-sts
+      app: pihole-sts
   serviceName: pihole-headless
   replicas: 1
   template:
     metadata:
       labels:
-        run: "pihole-sts"
+        app: "pihole-sts"
     spec:
       containers:
       - env:

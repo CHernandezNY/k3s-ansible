@@ -1,0 +1,45 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: pihole-udp
+  namespace: lab-dns
+  annotations:
+    metallb.universe.tf/allow-shared-ip: dns
+spec:
+  selector:
+    app: pihole-sts
+    statefulset.kubernetes.io/pod-name: pihole-sts-0
+  ports:
+  - protocol: UDP
+    port: 53
+    name: dnsudp
+    targetPort: 53
+  type: LoadBalancer
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: pihole-tcp
+  namespace: lab-dns
+  annotations:
+    metallb.universe.tf/allow-shared-ip: dns
+spec:
+  selector:
+    app: pihole-sts
+    statefulset.kubernetes.io/pod-name: pihole-sts-0
+  ports:
+  - protocol: TCP
+    port: 53
+    name: dnstcp
+    targetPort: 53
+  - protocol: TCP
+    port: 80
+    name: http
+    targetPort: 80
+  - protocol: TCP
+    port: 443
+    name: https
+    targetPort: 443
+  type: LoadBalancer
