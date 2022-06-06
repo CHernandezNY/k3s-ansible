@@ -3,7 +3,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: pihole-udp
-  namespace: lab-dns
+  namespace: baselab
 spec:
   selector:
     app: pihole-sts
@@ -19,7 +19,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: pihole-tcp
-  namespace: lab-dns
+  namespace: baselab
 spec:
   selector:
     app: pihole-sts

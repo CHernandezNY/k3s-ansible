@@ -3,7 +3,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: pihole-udp
-  namespace: lab-dns
+  namespace: baselab
   annotations:
     metallb.universe.tf/allow-shared-ip: dns
 spec:
@@ -22,7 +22,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: pihole-tcp
-  namespace: lab-dns
+  namespace: baselab
   annotations:
     metallb.universe.tf/allow-shared-ip: dns
 spec:
