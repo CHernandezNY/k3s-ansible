@@ -16,6 +16,11 @@
     update_cache: yes
     state: present
 
+- name: Install NFS helper
+  apt:
+    name: nfs-common
+    state: present
+
 - name: Install iptables
   apt:
     name: iptables
