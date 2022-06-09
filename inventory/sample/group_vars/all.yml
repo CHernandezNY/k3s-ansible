@@ -10,7 +10,7 @@ system_timezone: "Your/Timezone"
 # interface which will be used for flannel
 flannel_iface: "eth0"
 
-# apiserver_endpoint is virtual ip-address which will be configured on each master
+# apiserver_endpoint is virtual ip-address of the load balancer
 apiserver_endpoint: "192.168.1.17"
 
 # k3s_token is required  masters can talk together securely
