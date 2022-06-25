@@ -42,3 +42,10 @@
 - name: daemon_reload
   systemd:
     daemon_reload: yes
+
+- name: Clean up flannel and cni
+  shell: |
+    sudo ip link delete cni0
+    sudo ip link delete flannel.1
+  failed_when: false
+  ignore_errors: true
