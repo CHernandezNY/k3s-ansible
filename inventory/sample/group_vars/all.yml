@@ -8,7 +8,7 @@ systemd_dir: /etc/systemd/system
 system_timezone: "Your/Timezone"
 
 # interface which will be used for flannel
-flannel_iface: "eth0"
+cni_iface: "eth0"
 
 # apiserver_endpoint is virtual ip-address of the load balancer
 apiserver_endpoint: "192.168.1.17"
@@ -18,12 +18,14 @@ apiserver_endpoint: "192.168.1.17"
 k3s_token: "some-SUPER-DEDEUPER-secret-password"
 
 # change these to your liking, the only required one is--no-deploy servicelb
-extra_server_args: "--tls-san={{ apiserver_endpoint }} --flannel-iface={{ flannel_iface }} --node-taint CriticalAddonsOnly=true:NoExecute --disable servicelb --disable traefik"
-extra_agent_args: "--flannel-iface={{ flannel_iface }}"
+extra_server_args: "--tls-san={{ apiserver_endpoint }} --flannel-iface={{ cni_iface }} --node-taint CriticalAddonsOnly=true:NoExecute --disable servicelb --disable traefik"
+extra_agent_args: "--flannel-iface={{ cni_iface }}"
+
+# metallb install flag
+metallb_deploy: true
 
 # image tag for metal lb
-metal_lb_speaker_tag_version: "v0.13.9"
-metal_lb_controller_tag_version: "v0.13.9"
+metallb_version: "v0.13.9"
 
 # metallb ip range for load balancer
 metal_lb_ip_range: "192.168.1.80-192.168.1.90"
@@ -38,7 +40,7 @@ dns_nameservers:
   - "1.1.1.1"
 
 # NFS Client Configuration 
-nfs_server: "192.168.1.10"
+nfs_server: "192.168.1.10" 
 nfs_path: "/srv/nfs/kubedata"
 
 # DHCP address of unitilized bare-metal hosts
