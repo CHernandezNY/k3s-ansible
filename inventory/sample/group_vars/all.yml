@@ -18,7 +18,7 @@ apiserver_endpoint: "192.168.1.17"
 k3s_token: "some-SUPER-DEDEUPER-secret-password"
 
 # change these to your liking, the only required one is--no-deploy servicelb
-extra_server_args: "--tls-san={{ apiserver_endpoint }} --flannel-iface={{ flannel_iface }} --node-taint CriticalAddonsOnly=true:NoExecute --no-deploy servicelb --no-deploy traefik"
+extra_server_args: "--tls-san={{ apiserver_endpoint }} --flannel-iface={{ flannel_iface }} --node-taint CriticalAddonsOnly=true:NoExecute --disable servicelb --disable traefik"
 extra_agent_args: "--flannel-iface={{ flannel_iface }}"
 
 # image tag for metal lb
