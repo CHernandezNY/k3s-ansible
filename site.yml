@@ -24,3 +24,9 @@
   become: yes
   roles:
     - role: k3s/worker
+
+- hosts: controller
+  become: true
+  roles:
+    - role: metallb 
+      when: metallb_deploy == true
