@@ -1,6 +1,0 @@
----
-- name: Create Echo Server deployment
-  k8s:
-    state: absent            
-    namespace: baselab  
-    src: "{{ playbook_dir }}/k8s_yamls/echoserver.yml"
