@@ -1,0 +1,39 @@
+---
+- name: Download canal manifest to the cluster.
+  ansible.builtin.get_url:
+    url: "{{ canal_url }}"
+    dest: ~/canal.yml
+    mode: 0664
+
+- name: Update pod subnet
+  replace:
+    path: "~/canal.yml"
+    regexp: "10.244.0.0/16"
+    replace: "{{ podsubnet }}"
+
+- name: Update canal interface
+  replace:
+    path: "~/canal.yml"
+    regexp: 'canal_iface: ""'
+    replace: 'canal_iface: "{{cni_iface}}"'
+
+   
+- name: Install canal CNI
+  k8s:
+    kubeconfig: "/home/{{ ansible_user }}/.kube/config" 
+    state: present              
+    src: ~/canal.yml
+  when: 
+    - ansible_host == hostvars[groups['controller'][0]]['ansible_host'] | default(groups['controller'][0])
+
+- name: "Status of the canal calico controller"
+  k8s_info:
+    kubeconfig: "/home/{{ ansible_user }}/.kube/config"
+    api_version: v1
+    kind: Deployment
+    name: calico-kube-controllers
+    namespace: kube-system
+  register: calico_service
+  until: calico_service.resources | json_query('[*].status.conditions[?reason==`NewReplicaSetAvailable`][].status') | select ('match','True') | list | length == 1
+  delay: 15
+  retries: 10

@@ -20,6 +20,12 @@
   roles:
     - role: k3s/controller
 
+- hosts: controller
+  become: true
+  roles:
+    - role: k3s/cni
+      when: cni_native == "none" and cni_plugin != "none" 
+
 - hosts: worker
   become: yes
   roles:
