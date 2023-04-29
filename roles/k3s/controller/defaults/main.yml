@@ -2,10 +2,10 @@
 ansible_user: root
 server_init_args: >-
   {% if groups['controller'] | length > 1 %}
-    {% if ansible_hostname == hostvars[groups['controller'][0]]['ansible_hostname'] | default(groups['controller'][0]) %}
+    {% if ansible_hostname == hostvars[groups['controller'][0]]['ansible_hostname'] %}
       --cluster-init
     {% else %}
-      --server https://{{ hostvars[groups['controller'][0]]['ansible_host'] | default(groups['controller'][0]) }}:6443
+      --server https://{{ apiserver_endpoint }}:6443
     {% endif %}
     --token {{ k3s_token }}
   {% endif %}
