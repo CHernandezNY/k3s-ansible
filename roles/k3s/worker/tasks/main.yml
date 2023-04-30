@@ -14,3 +14,7 @@
     daemon_reload: yes
     state: restarted
     enabled: yes
+  register: service
+  until: service.failed == false
+  retries: 10
+  delay: 15
