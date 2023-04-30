@@ -26,8 +26,7 @@
       kubeconfig: "/home/{{ ansible_user }}/.kube/config" 
       state: present              
       src: ~/metallb.yml
-    when: 
-      - ansible_host == hostvars[groups['controller'][0]]['ansible_host'] | default(groups['controller'][0])
+    when: ansible_host == hostvars[groups['controller'][0]]['ansible_host'] | default(groups['controller'][0])
   
   - name: "Status of the metallb controller"
     k8s_info:
@@ -40,6 +39,7 @@
     until: web_service.resources | json_query('[*].status.conditions[?reason==`NewReplicaSetAvailable`][].status') | select ('match','True') | list | length == 1
     delay: 15
     retries: 10
+    when: ansible_host == hostvars[groups['controller'][0]]['ansible_host'] | default(groups['controller'][0])
 
   - name: Copy metallb ConfigMap manifest to first controller
     template:
@@ -53,5 +53,4 @@
       kubeconfig: "/home/{{ ansible_user }}/.kube/config" 
       state: present              
       src: "~/metallb.configmap.yml"
-    when: 
-      - ansible_host == hostvars[groups['controller'][0]]['ansible_host'] | default(groups['controller'][0])
+    when: ansible_host == hostvars[groups['controller'][0]]['ansible_host'] | default(groups['controller'][0])

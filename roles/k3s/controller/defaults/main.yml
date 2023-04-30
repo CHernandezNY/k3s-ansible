@@ -1,6 +1,12 @@
 ---
 ansible_user: root
 server_init_args: >-
+  --tls-san {{ apiserver_endpoint }} --cluster-cidr {{podsubnet}}
+  {% if cni_native != 'none' %}
+  --flannel-backend={{ cni_native }} --flannel-iface={{ cni_iface }}
+  {% else %}
+  --flannel-backend={{ cni_native }} --disable-network-policy
+  {% endif %}
   {% if groups['controller'] | length > 1 %}
   {% if ansible_hostname == hostvars[groups['controller'][0]]['ansible_hostname'] %}
   --cluster-init

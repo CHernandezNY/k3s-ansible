@@ -34,9 +34,9 @@ apiserver_endpoint: "192.168.1.17"
 # this token should be alpha numeric only
 k3s_token: "some-SUPER-DEDEUPER-secret-password"
 
-# change these to your liking, additional option can be added
-extra_server_args: "--tls-san={{ apiserver_endpoint }} --node-taint CriticalAddonsOnly=true:NoExecute --cluster-cidr {{podsubnet}} --flannel-backend={{ cni_native }} --flannel-iface={{ cni_iface }} --disable-network-policy --disable servicelb --disable traefik"
-extra_agent_args: "--flannel-iface={{ cni_iface }}"
+# K3S initialization option, add or change these to your liking. 
+extra_server_args: " --node-taint CriticalAddonsOnly=true:NoExecute --disable servicelb --disable traefik"
+extra_agent_args: " "
 
 # metallb install flag
 metallb_deploy: true
