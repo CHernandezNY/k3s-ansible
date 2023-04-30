@@ -53,7 +53,7 @@
     namespace: calico-system
   register: calico_service
   until: calico_service.resources | json_query('[*].status.conditions[?reason==`NewReplicaSetAvailable`][].status') | select ('match','True') | list | length == 1
-  delay: 15
+  delay: 20
   retries: 10
   when: 
     - ansible_host == hostvars[groups['controller'][0]]['ansible_host'] | default(groups['controller'][0])
