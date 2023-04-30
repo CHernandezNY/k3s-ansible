@@ -25,7 +25,6 @@
   when: 
     - ansible_host == hostvars[groups['controller'][0]]['ansible_host'] | default(groups['controller'][0])
 
-   
 - name: Install canal CNI
   k8s:
     kubeconfig: "/home/{{ ansible_user }}/.kube/config" 
