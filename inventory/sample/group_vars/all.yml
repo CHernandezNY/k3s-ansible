@@ -38,15 +38,6 @@ k3s_token: "some-SUPER-DEDEUPER-secret-password"
 extra_server_args: " --node-taint CriticalAddonsOnly=true:NoExecute --disable servicelb --disable traefik"
 extra_agent_args: " "
 
-# metallb install flag
-metallb_deploy: true
-
-# image tag for metal lb
-metallb_version: "v0.13.9"
-
-# metallb ip range for load balancer
-metal_lb_ip_range: "192.168.1.80-192.168.1.90"
-
 # Default Gateway
 default_gateway:
   "192.168.1.1"
