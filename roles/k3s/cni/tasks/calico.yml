@@ -44,7 +44,7 @@
   when: 
     - ansible_host == hostvars[groups['controller'][0]]['ansible_host'] | default(groups['controller'][0])
 
-- name: "Status of the calico controller"
+- name: "Waiting for calico controller to be running"
   k8s_info:
     kubeconfig: "/home/{{ ansible_user }}/.kube/config"
     api_version: v1

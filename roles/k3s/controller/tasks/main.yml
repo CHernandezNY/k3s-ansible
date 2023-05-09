@@ -31,7 +31,7 @@
     group: root
     mode: 0644
 
-- name: Enable and check K3s service
+- name: Enable and wait for K3s service
   systemd:
     name: k3s
     daemon_reload: yes
@@ -54,7 +54,7 @@
 - name: Change file access node-token
   file:
     path: /var/lib/rancher/k3s/server
-    mode: "g+rx,o+rx"
+    mode: 0660
 
 - name: Read node-token from controller
   slurp:
@@ -75,7 +75,8 @@
     path: ~{{ ansible_user }}/.kube
     state: directory
     owner: "{{ ansible_user }}"
-    mode: "u=rwx,g=rx,o="
+    group: "{{ ansible_user }}"
+    mode: 0700
 
 - name: Copy config file to user home directory
   copy:
@@ -83,14 +84,21 @@
     dest: ~{{ ansible_user }}/.kube/config
     remote_src: yes
     owner: "{{ ansible_user }}"
-    mode: "u=rw,g=,o="
+    group: "{{ ansible_user }}"
+    mode: 0600
 
-- name: Configure kubectl cluster to https://{{ apiserver_endpoint }}:6443
-  command: >-
-    k3s kubectl config set-cluster default
-      --server=https://{{ apiserver_endpoint }}:6443
-      --kubeconfig ~{{ ansible_user }}/.kube/config
-  changed_when: true
+- name: Update kube config file with api vip
+  replace:
+    path: ~{{ ansible_user }}/.kube/config
+    regexp: '127.0.0.1'
+    replace: '{{ apiserver_endpoint }}'
+
+#- name: Configure kubectl cluster to https://{{ apiserver_endpoint }}:6443
+#  command: >-
+#    k3s kubectl config set-cluster default
+#      --server=https://{{ apiserver_endpoint }}:6443
+#      --kubeconfig ~{{ ansible_user }}/.kube/config
+#  changed_when: true
 
 - name: Create kubectl symlink
   file:

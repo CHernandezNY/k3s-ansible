@@ -1,11 +1,11 @@
 ---
 - name: Set detected_distribution 
   set_fact:
-    detected_distribution: "{{ ansible_facts.lsb.id }}"
+    detected_distribution: "{{ ansible_distribution }}"
 
 - name: Set detected_distribution_major_release
   set_fact:
-    detected_distribution_major_release: "{{ ansible_facts.lsb.major_release }}"
+    detected_distribution_major_release: "{{ ansible_distribution_major_version }}"
 
 - name: execute OS related tasks 
   include_tasks: "{{ oses }}"

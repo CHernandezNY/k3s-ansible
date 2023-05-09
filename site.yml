@@ -1,22 +1,22 @@
 ---
 - hosts: all
   gather_facts: yes
-  become: yes
+  become: true
   roles:
     - role: prereq
 
 - hosts: balancer
-  become: yes
+  become: true
   roles:
     - role: balancer
 
 - hosts: k8s_cluster
-  become: yes
+  become: true
   roles:
     - role: download
 
 - hosts: controller
-  become: yes
+  become: true
   roles:
     - role: k3s/controller
 
@@ -27,6 +27,6 @@
       when: cni_native == "none" and cni_plugin != "none" 
 
 - hosts: worker
-  become: yes
+  become: true
   roles:
     - role: k3s/worker

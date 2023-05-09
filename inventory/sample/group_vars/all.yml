@@ -23,10 +23,6 @@ cni_iface: "eth0"
 # check cni documentation for the appropriate cidr
 podsubnet: "10.244.0.0/16"
 
-# POD Subnet
-# check cni documentation for the appropriate cidr
-podsubnet: "10.244.0.0/16"
-
 # apiserver_endpoint is virtual ip-address of the load balancer
 apiserver_endpoint: "192.168.1.17"
 
