@@ -16,6 +16,10 @@
   when: 
     - ansible_host == hostvars[groups['controller'][0]]['ansible_host'] | default(groups['controller'][0])
 
+- name: Update canal ip forwarding
+  shell: sed -i -e '/cniVersion:*/a\      "container_settings":\ {\n        "allow_ip_forwarding":\ true\n      },' ~/canal.yml
+  when: 
+    - ansible_host == hostvars[groups['controller'][0]]['ansible_host'] | default(groups['controller'][0])
 
 - name: Update canal interface
   replace:
