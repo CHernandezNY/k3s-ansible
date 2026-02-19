@@ -5,4 +5,4 @@ agent_init_args: >-
   {% if cni_native != 'none' %} 
   --flannel-iface={{ cni_iface }} 
   {% endif %}
-  {{ extra_agent_args | default("") }}
+  {{ k3s_agent_args | default("") }}
