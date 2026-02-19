@@ -20,8 +20,10 @@
   roles:
     - role: k3s/controller
 
-- hosts: controller
-  become: true
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  become: false
   roles:
     - role: k3s/cni
       when: cni_native == "none" and cni_plugin != "none" 
