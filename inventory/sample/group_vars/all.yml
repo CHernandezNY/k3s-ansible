@@ -54,6 +54,8 @@ ip_address_mapping:
     name: wrkr-02.example.local
   "192.168.1.16":
     name: wrkr-03.example.local
+  "192.168.1.17":
+    name: nginx-lb.example.local
 
 # CNI Manifest URLs 
 # Calico Manifest url 
